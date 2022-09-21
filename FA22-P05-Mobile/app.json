@@ -2,7 +2,7 @@
   "expo": {
     "name": "FA22-P05-Mobile-g01",
     "slug": "FA22-P05-Mobile-g01",
-    "owner": "envoc-infrastructure",
+    "owner": "envoc_infrastructure",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
