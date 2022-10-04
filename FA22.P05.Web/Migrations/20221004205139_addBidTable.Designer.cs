@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FA22.P05.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221004010926_BidTable")]
-    partial class BidTable
+    [Migration("20221004205139_addBidTable")]
+    partial class addBidTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

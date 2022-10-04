@@ -14,7 +14,6 @@ public class Item
     public virtual Product? Product { get; set; }
 
     public int UserId { get; set; }
-    public virtual User? User { get; set; }
-
+    public User? User { get; set; }
     public virtual ICollection<ItemListing> ItemListings { get; set; } = new List<ItemListing>();
 }

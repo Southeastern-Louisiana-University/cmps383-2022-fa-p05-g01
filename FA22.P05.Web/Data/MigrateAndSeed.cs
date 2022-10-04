@@ -10,7 +10,7 @@ public static class MigrateAndSeed
     public static async Task Initialize(IServiceProvider services)
     {
         var context = services.GetRequiredService<DataContext>();
-        await context.Database.MigrateAsync();
+         await context.Database.MigrateAsync();
 
         AddProducts(context);
 

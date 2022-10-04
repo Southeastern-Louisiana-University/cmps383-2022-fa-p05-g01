@@ -4,38 +4,39 @@
 
 namespace FA22.P05.Web.Migrations
 {
-    public partial class BidTable : Migration
+    public partial class addBidTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            
             migrationBuilder.DropForeignKey(
                 name: "FK_Item_AspNetUsers_OwnerId",
                 table: "Item");
-
+            
             migrationBuilder.DropForeignKey(
                 name: "FK_Listing_AspNetUsers_OwnerId",
                 table: "Listing");
-
+            
             migrationBuilder.RenameColumn(
                 name: "OwnerId",
                 table: "Listing",
                 newName: "UserId");
-
+            
             migrationBuilder.RenameIndex(
                 name: "IX_Listing_OwnerId",
                 table: "Listing",
                 newName: "IX_Listing_UserId");
-
+            
             migrationBuilder.RenameColumn(
                 name: "OwnerId",
                 table: "Item",
                 newName: "UserId");
-
+            
             migrationBuilder.RenameIndex(
                 name: "IX_Item_OwnerId",
                 table: "Item",
                 newName: "IX_Item_UserId");
-
+            
             migrationBuilder.CreateTable(
                 name: "Bid",
                 columns: table => new
@@ -63,7 +64,7 @@ namespace FA22.P05.Web.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
+            
             migrationBuilder.CreateIndex(
                 name: "IX_Bid_ListingId",
                 table: "Bid",
@@ -87,7 +88,9 @@ namespace FA22.P05.Web.Migrations
                 column: "UserId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id");
+            
         }
+            
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
