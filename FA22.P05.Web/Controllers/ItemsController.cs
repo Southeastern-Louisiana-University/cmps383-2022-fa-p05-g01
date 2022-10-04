@@ -56,7 +56,7 @@ public class ItemsController : ControllerBase
         {
             Condition = dto.Condition,
             ProductId = product.Id,
-            OwnerId = User.GetCurrentUserId() ?? throw new Exception("Missing user id")
+            UserId = User.GetCurrentUserId() ?? throw new Exception("Missing user id")
         };
         items.Add(item);
 
@@ -90,7 +90,7 @@ public class ItemsController : ControllerBase
             return NotFound();
         }
 
-        if (!User.IsInRole(RoleNames.Admin) && item.OwnerId != User.GetCurrentUserId())
+        if (!User.IsInRole(RoleNames.Admin) && item.UserId != User.GetCurrentUserId())
         {
             return Forbid();
         }
@@ -117,7 +117,7 @@ public class ItemsController : ControllerBase
             return NotFound();
         }
 
-        if (!User.IsInRole(RoleNames.Admin) && item.OwnerId != User.GetCurrentUserId())
+        if (!User.IsInRole(RoleNames.Admin) && item.UserId != User.GetCurrentUserId())
         {
             return Forbid();
         }
