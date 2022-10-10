@@ -7,6 +7,13 @@
   pointer-events: none;
 }
 
+.App-background {
+  background-image: url("https://i.imgur.com/IPSmtRA.png");
+  background-size: cover;
+  height: 100vh;
+  background-repeat: no-repeat;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
