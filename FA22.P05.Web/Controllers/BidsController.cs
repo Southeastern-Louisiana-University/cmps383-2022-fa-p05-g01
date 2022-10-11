@@ -1,6 +1,7 @@
 ﻿
 using FA22.P05.Web.Data;
 using FA22.P05.Web.Extensions;
+using FA22.P05.Web.Features.Authorization;
 using FA22.P05.Web.Features.Bids;
 using FA22.P05.Web.Features.Items;
 using FA22.P05.Web.Features.Listings;
@@ -27,6 +28,7 @@ namespace FA22.P05.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("{id}")]
         public ActionResult<BidDto> GetBidById(int id)
         {
@@ -74,6 +76,28 @@ namespace FA22.P05.Web.Controllers
            
 
             return Ok(bidDto);
+        }
+        [HttpDelete]
+        [Route("{id}")]
+        [Authorize]
+        public ActionResult<BidDto> DeleteBid(int id)
+        {
+            var bid = bids.FirstOrDefault(x => x.Id == id);
+            if(bid == null)
+            {
+                return NotFound();
+            }
+
+            if (!User.IsInRole(RoleNames.Admin) && bid.UserId != User.GetCurrentUserId())
+            {
+                return Forbid();
+            }
+
+            bids.Remove(bid);
+
+            dataContext.SaveChanges();
+
+            return Ok();
         }
 
 
