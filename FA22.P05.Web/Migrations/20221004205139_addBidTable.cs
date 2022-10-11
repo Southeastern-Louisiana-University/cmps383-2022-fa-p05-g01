@@ -74,7 +74,7 @@ namespace FA22.P05.Web.Migrations
                 name: "IX_Bid_ListingId1",
                 table: "Bid",
                 column: "ListingId1");
-
+           
             migrationBuilder.AddForeignKey(
                 name: "FK_Item_AspNetUsers_UserId",
                 table: "Item",

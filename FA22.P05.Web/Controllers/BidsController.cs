@@ -1,5 +1,6 @@
 ﻿
 using FA22.P05.Web.Data;
+using FA22.P05.Web.Extensions;
 using FA22.P05.Web.Features.Bids;
 using FA22.P05.Web.Features.Items;
 using FA22.P05.Web.Features.Listings;
@@ -20,31 +21,41 @@ namespace FA22.P05.Web.Controllers
 
         public BidsController(DataContext dataContext)
         {
-            dataContext = dataContext;
+            this.dataContext = dataContext;
             bids = dataContext.Set<Bid>();
             listings = dataContext.Set<Listing>();
         }
 
 
         [HttpPost]
-       
+        [Authorize]
         public ActionResult<BidDto> CreateBid(BidDto bidDto)
         {
             if (IsInvalid(bidDto)){
                     return BadRequest();
                  }
 
+            var listing = listings.FirstAsync(x => x.Id == bidDto.ListingId);
+
+            if(listing == null)
+            {
+                return BadRequest();
+            }
+
             var bid = new Bid
             {
-                ListingId = bidDto.ListingId,
+
                 BidAmount = bidDto.BidAmount,
+                ListingId = listing.Id,
+                UserId = User.GetCurrentUserId() ?? throw new Exception("missing user id")
             };
 
             bids.Add(bid);
 
-            dataContext.SaveChanges();
+            dataContext.SaveChangesAsync();
 
-            bidDto.Id = bid.Id;
+            bidDto.Id = listing.Id;
+           
 
             return Ok(bidDto);
         }
