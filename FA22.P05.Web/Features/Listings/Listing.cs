@@ -1,5 +1,7 @@
 ﻿using FA22.P05.Web.Features.Authorization;
+using FA22.P05.Web.Features.Bids;
 using FA22.P05.Web.Features.ItemListings;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FA22.P05.Web.Features.Listings;
 
@@ -19,5 +21,8 @@ public class Listing
 
     public int UserId { get; set; }
     public virtual User? User { get; set; }
-    public virtual ICollection<ItemListing> ItemsForSale { get; set; } = new List<ItemListing>();
+    public ICollection<ItemListing>? ItemsForSale { get; set; }
+    public ICollection<Bid>? ListingBids { get; set; }
+
+
 }

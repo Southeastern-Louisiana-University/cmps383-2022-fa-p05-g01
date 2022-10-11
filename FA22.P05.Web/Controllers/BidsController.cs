@@ -26,16 +26,31 @@ namespace FA22.P05.Web.Controllers
             listings = dataContext.Set<Listing>();
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public ActionResult<BidDto> GetBidById(int id)
+        {
+            var result = GetBidDtos(bids.Where(x => x.Id == id)).FirstOrDefault();
+            if(result == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(result);
+        }
+    
 
         [HttpPost]
         [Authorize]
-        public ActionResult<BidDto> CreateBid(BidDto bidDto)
+        public  ActionResult<BidDto> CreateBid(BidDto bidDto)
         {
+           
+
             if (IsInvalid(bidDto)){
                     return BadRequest();
                  }
 
-            var listing = listings.FirstAsync(x => x.Id == bidDto.ListingId);
+            var listing = listings.FirstOrDefault(x => x.Id == bidDto.ListingId);
 
             if(listing == null)
             {
@@ -52,9 +67,10 @@ namespace FA22.P05.Web.Controllers
 
             bids.Add(bid);
 
-            dataContext.SaveChangesAsync();
+            dataContext.SaveChanges();
 
-            bidDto.Id = listing.Id;
+
+            bidDto.Id = bid.Id;
            
 
             return Ok(bidDto);
@@ -64,6 +80,17 @@ namespace FA22.P05.Web.Controllers
         private static bool IsInvalid(BidDto dto)
         {
             return ((dto.BidAmount <= 0) || (dto.UserId <= 0 ) || (dto.ListingId <= 0));
+        }
+        public static IQueryable<BidDto> GetBidDtos(IQueryable<Bid> bids)
+        {
+            return bids
+                .Select(x => new BidDto
+                {
+                    Id = x.Id,
+                    BidAmount = x.BidAmount,
+                    UserId = x.UserId,
+                    ListingId = x.Listing!.Id,
+                });
         }
 
     }

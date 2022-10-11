@@ -4,6 +4,7 @@ using FA22.P05.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FA22.P05.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221011184205_wipFixBidTable2")]
+    partial class wipFixBidTable2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,17 +152,12 @@ namespace FA22.P05.Web.Migrations
                     b.Property<int>("ListingId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ListingId1")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ListingId");
-
-                    b.HasIndex("ListingId1");
 
                     b.HasIndex("UserId");
 
@@ -387,10 +384,6 @@ namespace FA22.P05.Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FA22.P05.Web.Features.Listings.Listing", null)
-                        .WithMany("ListingBids")
-                        .HasForeignKey("ListingId1");
-
                     b.HasOne("FA22.P05.Web.Features.Authorization.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -505,8 +498,6 @@ namespace FA22.P05.Web.Migrations
             modelBuilder.Entity("FA22.P05.Web.Features.Listings.Listing", b =>
                 {
                     b.Navigation("ItemsForSale");
-
-                    b.Navigation("ListingBids");
                 });
 
             modelBuilder.Entity("FA22.P05.Web.Features.Products.Product", b =>

@@ -10,6 +10,6 @@ public class ListingConfiguration : IEntityTypeConfiguration<Listing>
         builder.HasOne(x => x.User)
             .WithMany()
             .HasForeignKey(x => x.UserId)
-            .OnDelete(DeleteBehavior.ClientCascade);
+            .OnDelete(DeleteBehavior.ClientCascade); 
     }
 }
