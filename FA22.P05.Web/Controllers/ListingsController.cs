@@ -63,7 +63,7 @@ namespace FA22.P05.Web.Controllers
                 Price = dto.Price!.Value,
                 StartUtc = dto.StartUtc!.Value,
                 EndUtc = dto.EndUtc!.Value,
-                OwnerId = User.GetCurrentUserId() ?? throw new Exception("Missing user id")
+                UserId = User.GetCurrentUserId() ?? throw new Exception("Missing user id")
             };
             listings.Add(listing);
 
@@ -106,7 +106,7 @@ namespace FA22.P05.Web.Controllers
                 return NotFound();
             }
 
-            if (!User.IsInRole(RoleNames.Admin) && listing.OwnerId != User.GetCurrentUserId())
+            if (!User.IsInRole(RoleNames.Admin) && listing.UserId != User.GetCurrentUserId())
             {
                 return Forbid();
             }
@@ -158,7 +158,7 @@ namespace FA22.P05.Web.Controllers
                 return NotFound();
             }
 
-            if (!User.IsInRole(RoleNames.Admin) && listing.OwnerId != User.GetCurrentUserId())
+            if (!User.IsInRole(RoleNames.Admin) && listing.UserId != User.GetCurrentUserId())
             {
                 return Forbid();
             }
