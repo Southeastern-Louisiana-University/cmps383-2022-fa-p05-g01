@@ -16,15 +16,15 @@ namespace FA22.P05.Web.Controllers
     [ApiController]
     public class BidsController : ControllerBase
     {
-        private readonly DbSet<Bid> bids;
-        private readonly DataContext dataContext;
-        private readonly DbSet<Listing> listings;
+        private readonly DbSet<Bid> _bids;
+        private readonly DataContext _dataContext;
+        private readonly DbSet<Listing> _listings;
 
         public BidsController(DataContext dataContext)
         {
-            this.dataContext = dataContext;
-            bids = dataContext.Set<Bid>();
-            listings = dataContext.Set<Listing>();
+            _dataContext = dataContext;
+            _bids = dataContext.Set<Bid>();
+            _listings = dataContext.Set<Listing>();
         }
 
         [HttpGet]
@@ -32,7 +32,7 @@ namespace FA22.P05.Web.Controllers
         [Route("{id}")]
         public ActionResult<BidDto> GetBidById(int id)
         {
-            var result = GetBidDtos(bids.Where(x => x.Id == id)).FirstOrDefault();
+            var result = _bids.FirstOrDefault(x => x.Id == id);
             if(result == null)
             {
                 return BadRequest();
@@ -40,67 +40,46 @@ namespace FA22.P05.Web.Controllers
 
             return Ok(result);
         }
-    
 
         [HttpPost]
         [Authorize]
         public  ActionResult<BidDto> CreateBid(BidDto bidDto)
         {
-           
-
             if (IsInvalid(bidDto)){
                     return BadRequest();
                  }
+            var listing = _listings.FirstOrDefault(x => x.Id == bidDto.ListingId);
 
-            var listing = listings.FirstOrDefault(x => x.Id == bidDto.ListingId);
-
-            if(listing == null)
-            {
+            if(listing == null) {
                 return BadRequest();
             }
-
-            var bid = new Bid
-            {
-
+            var bid = new Bid {
                 BidAmount = bidDto.BidAmount,
                 ListingId = listing.Id,
                 UserId = User.GetCurrentUserId() ?? throw new Exception("missing user id")
             };
-
-            bids.Add(bid);
-
-            dataContext.SaveChanges();
-
-
+            _bids.Add(bid);
+           _dataContext.SaveChanges();
             bidDto.Id = bid.Id;
-           
 
-            return Ok(bidDto);
+            return CreatedAtAction(nameof(GetBidById), new { id = bidDto.Id }, bidDto);
         }
         [HttpDelete]
         [Route("{id}")]
         [Authorize]
         public ActionResult<BidDto> DeleteBid(int id)
         {
-            var bid = bids.FirstOrDefault(x => x.Id == id);
-            if(bid == null)
-            {
+            var bid = _bids.FirstOrDefault(x => x.Id == id);
+            if(bid == null){
                 return NotFound();
             }
-
-            if (!User.IsInRole(RoleNames.Admin) && bid.UserId != User.GetCurrentUserId())
-            {
+            if (!User.IsInRole(RoleNames.Admin) && bid.UserId != User.GetCurrentUserId()){
                 return Forbid();
             }
-
-            bids.Remove(bid);
-
-            dataContext.SaveChanges();
-
+            _bids.Remove(bid);
+            _dataContext.SaveChanges();
             return Ok();
         }
-
-
         private static bool IsInvalid(BidDto dto)
         {
             return ((dto.BidAmount <= 0) || (dto.UserId <= 0 ) || (dto.ListingId <= 0));
@@ -116,8 +95,5 @@ namespace FA22.P05.Web.Controllers
                     ListingId = x.Listing!.Id,
                 });
         }
-
     }
-
-
 }

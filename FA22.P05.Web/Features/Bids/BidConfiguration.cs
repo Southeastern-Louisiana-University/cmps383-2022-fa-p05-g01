@@ -11,7 +11,6 @@ namespace FA22.P05.Web.Features.Bids
                 .HasForeignKey(x => x.ListingId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
-
     }
 }
 
