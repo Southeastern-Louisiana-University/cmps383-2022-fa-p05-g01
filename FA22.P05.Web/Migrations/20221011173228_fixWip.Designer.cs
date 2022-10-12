@@ -4,6 +4,7 @@ using FA22.P05.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FA22.P05.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221011173228_fixWip")]
+    partial class fixWip
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,38 +135,6 @@ namespace FA22.P05.Web.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-                });
-
-            modelBuilder.Entity("FA22.P05.Web.Features.Bids.Bid", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<decimal>("BidAmount")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ListingId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ListingId1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ListingId");
-
-                    b.HasIndex("ListingId1");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Bid");
                 });
 
             modelBuilder.Entity("FA22.P05.Web.Features.ItemListings.ItemListing", b =>
@@ -379,29 +349,6 @@ namespace FA22.P05.Web.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FA22.P05.Web.Features.Bids.Bid", b =>
-                {
-                    b.HasOne("FA22.P05.Web.Features.Listings.Listing", "Listing")
-                        .WithMany()
-                        .HasForeignKey("ListingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FA22.P05.Web.Features.Listings.Listing", null)
-                        .WithMany("ListingBids")
-                        .HasForeignKey("ListingId1");
-
-                    b.HasOne("FA22.P05.Web.Features.Authorization.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Listing");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("FA22.P05.Web.Features.ItemListings.ItemListing", b =>
                 {
                     b.HasOne("FA22.P05.Web.Features.Items.Item", "Item")
@@ -505,8 +452,6 @@ namespace FA22.P05.Web.Migrations
             modelBuilder.Entity("FA22.P05.Web.Features.Listings.Listing", b =>
                 {
                     b.Navigation("ItemsForSale");
-
-                    b.Navigation("ListingBids");
                 });
 
             modelBuilder.Entity("FA22.P05.Web.Features.Products.Product", b =>

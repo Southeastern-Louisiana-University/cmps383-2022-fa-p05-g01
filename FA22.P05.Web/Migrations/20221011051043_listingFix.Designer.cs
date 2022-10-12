@@ -4,6 +4,7 @@ using FA22.P05.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FA22.P05.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221011051043_listingFix")]
+    partial class listingFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,7 +152,7 @@ namespace FA22.P05.Web.Migrations
                     b.Property<int>("ListingId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ListingId1")
+                    b.Property<int>("ListingId1")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -161,8 +163,6 @@ namespace FA22.P05.Web.Migrations
                     b.HasIndex("ListingId");
 
                     b.HasIndex("ListingId1");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Bid");
                 });
@@ -381,19 +381,15 @@ namespace FA22.P05.Web.Migrations
 
             modelBuilder.Entity("FA22.P05.Web.Features.Bids.Bid", b =>
                 {
-                    b.HasOne("FA22.P05.Web.Features.Listings.Listing", "Listing")
+                    b.HasOne("FA22.P05.Web.Features.Authorization.User", "User")
                         .WithMany()
                         .HasForeignKey("ListingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FA22.P05.Web.Features.Listings.Listing", null)
+                    b.HasOne("FA22.P05.Web.Features.Listings.Listing", "Listing")
                         .WithMany("ListingBids")
-                        .HasForeignKey("ListingId1");
-
-                    b.HasOne("FA22.P05.Web.Features.Authorization.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("ListingId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

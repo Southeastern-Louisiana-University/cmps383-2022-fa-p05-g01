@@ -7,9 +7,9 @@ public class ItemConfiguration : IEntityTypeConfiguration<Item>
 {
     public void Configure(EntityTypeBuilder<Item> builder)
     {
-        builder.HasOne(x => x.Owner)
+        builder.HasOne(x => x.User)
             .WithMany()
-            .HasForeignKey(x => x.OwnerId)
+            .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.ClientCascade);
     }
 }

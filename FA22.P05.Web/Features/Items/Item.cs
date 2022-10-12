@@ -13,8 +13,7 @@ public class Item
     public int ProductId { get; set; }
     public virtual Product? Product { get; set; }
 
-    public int OwnerId { get; set; }
-    public virtual User? Owner { get; set; }
-
+    public int UserId { get; set; }
+    public User? User { get; set; }
     public virtual ICollection<ItemListing> ItemListings { get; set; } = new List<ItemListing>();
 }
