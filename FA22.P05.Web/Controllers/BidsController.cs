@@ -1,12 +1,9 @@
 ﻿
 using FA22.P05.Web.Data;
 using FA22.P05.Web.Extensions;
-using FA22.P05.Web.Features.Authorization;
 using FA22.P05.Web.Features.Bids;
-using FA22.P05.Web.Features.Items;
 using FA22.P05.Web.Features.Listings;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -64,22 +61,7 @@ namespace FA22.P05.Web.Controllers
 
             return CreatedAtAction(nameof(GetBidById), new { id = bidDto.Id }, bidDto);
         }
-        [HttpDelete]
-        [Route("{id}")]
-        [Authorize]
-        public ActionResult<BidDto> DeleteBid(int id)
-        {
-            var bid = _bids.FirstOrDefault(x => x.Id == id);
-            if(bid == null){
-                return NotFound();
-            }
-            if (!User.IsInRole(RoleNames.Admin) && bid.UserId != User.GetCurrentUserId()){
-                return Forbid();
-            }
-            _bids.Remove(bid);
-            _dataContext.SaveChanges();
-            return Ok();
-        }
+       
         private static bool IsInvalid(BidDto dto)
         {
             return ((dto.BidAmount <= 0) || (dto.UserId <= 0 ) || (dto.ListingId <= 0));
