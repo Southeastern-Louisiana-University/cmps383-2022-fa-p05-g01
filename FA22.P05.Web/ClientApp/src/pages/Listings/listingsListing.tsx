@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { ListingDto } from "../../types/types";
 import axios from "axios";
-import { Button, Card, CardContent, List, Typography } from "@mui/material";
-import React from "react";
+import { CardContent, Typography } from "@mui/material";
+
 export default function ActiveListings() {
   const [listings, setListings] = useState<ListingDto[]>();
 
