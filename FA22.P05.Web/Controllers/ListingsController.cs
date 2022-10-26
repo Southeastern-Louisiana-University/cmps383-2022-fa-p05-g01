@@ -31,9 +31,6 @@ namespace FA22.P05.Web.Controllers
         public IQueryable<ListingDto> GetActiveListings()
         {
             var now = DateTimeOffset.UtcNow;
-            var lists = listings.Where(x => x.StartUtc <= now && now <= x.EndUtc);
-            
-
             return GetListingDtos(listings);
         }
 

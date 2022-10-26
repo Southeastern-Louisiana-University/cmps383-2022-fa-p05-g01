@@ -1,6 +1,6 @@
-    import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
-import  ListingsPage  from "../pages/Listings/listings";
+import ListingsPage from "../pages/Listings/listings";
 
 export const routerConfig = createBrowserRouter([
   {
@@ -10,7 +10,6 @@ export const routerConfig = createBrowserRouter([
       {
         path: "listings",
         element: <ListingsPage />,
-         
       },
     ],
   },

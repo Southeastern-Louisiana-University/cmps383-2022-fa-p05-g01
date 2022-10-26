@@ -1,8 +1,3 @@
-export type ApiResponse<T> = {
-  data: T;
-  error: Error[];
-  hasErrors: boolean;
-};
 export type Error = {
   propery: string;
   message: string;

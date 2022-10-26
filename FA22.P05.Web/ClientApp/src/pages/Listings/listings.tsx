@@ -1,23 +1,12 @@
-
-import { Button, Card } from '@mui/material';
-import { Form } from 'react-router-dom';
-import ActiveListings from './listingsListing';
+import { Card } from "@mui/material";
+import ActiveListings from "./listingsListing";
 
 function ListingsPage() {
-  
-  
-  
   return (
-   
-     <Card>
+    <Card>
       <ActiveListings />
     </Card>
-    
-       
-    
-        
-      );
- 
+  );
 }
 
- export default ListingsPage;
+export default ListingsPage;

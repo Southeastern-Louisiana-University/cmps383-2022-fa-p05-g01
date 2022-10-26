@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { AppBar, Toolbar, Tabs, Tab, IconButton, Avatar } from "@mui/material";
 import { Link, Outlet } from "react-router-dom";
 
@@ -20,11 +20,13 @@ export default function Navbar() {
             indicatorColor="primary"
           >
             <Tab label="My Listings" />
+
             <IconButton sx={{ color: "white" }}>
-            <Link  to="listings"><Tab label="All Listings"/> </Link>
-             </IconButton>
-   
-           
+              <Link to="listings">
+                <Tab label="All Listings" />{" "}
+              </Link>
+            </IconButton>
+
             <Tab label="My Orders/Bids" />
           </Tabs>
 
