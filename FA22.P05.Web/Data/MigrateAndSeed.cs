@@ -1,4 +1,5 @@
 ﻿using FA22.P05.Web.Features.Authorization;
+using FA22.P05.Web.Features.Listings;
 using FA22.P05.Web.Features.Products;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ public static class MigrateAndSeed
         await context.Database.MigrateAsync();
 
         AddProducts(context);
+        await AddListings(context);
 
         await AddRoles(services);
         await AddUsers(services);
@@ -42,6 +44,43 @@ public static class MigrateAndSeed
             Description = "PC platform release of the 2004 wonder",
         });
         context.SaveChanges();
+    }
+    private static async Task AddListings(DataContext context)
+    {
+        var listings = context.Set<Listing>();
+        if (listings.Any(x => x.EndUtc > DateTimeOffset.UtcNow))
+        {
+            return;
+        }
+
+        listings.Add(new Listing
+        {
+            Name = "N64",
+            Price = 199.99m,
+            Description = "I am selling a mint condition N64",
+            StartUtc = DateTimeOffset.UtcNow,
+            EndUtc = DateTimeOffset.UtcNow.AddDays(10),
+            UserId = 1
+        });
+        listings.Add(new Listing
+        {
+            Name = "Halo ODST",
+            Price = 19.99m,
+            Description = "I am selling a copy of Halo ODST",
+            StartUtc = DateTimeOffset.UtcNow,
+            EndUtc = DateTimeOffset.UtcNow.AddDays(10),
+            UserId = 1
+        });
+        listings.Add(new Listing
+        {
+            Name = "N64",
+            Price = 100.00m,
+            Description = "I am selling a slightly used Xbox 360",
+            StartUtc = DateTimeOffset.UtcNow,
+            EndUtc = DateTimeOffset.UtcNow.AddDays(10),
+            UserId = 1
+        });
+        await context.SaveChangesAsync();
     }
 
     private static async Task AddUsers(IServiceProvider services)
