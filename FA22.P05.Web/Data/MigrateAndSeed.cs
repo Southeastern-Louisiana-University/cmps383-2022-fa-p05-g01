@@ -77,6 +77,8 @@ public static class MigrateAndSeed
         };
         await userManager.CreateAsync(sueUser, defaultPassword);
         await userManager.AddToRoleAsync(sueUser, RoleNames.User);
+
+        services.GetRequiredService<DataContext>().SaveChangesAsync();
     }
 
     private static async Task AddRoles(IServiceProvider services)
@@ -107,7 +109,7 @@ public static class MigrateAndSeed
             return;
         }
 
-        await listings.AddAsync(new Listing
+        listings.Add(new Listing
         {
             Name = "N64",
             Price = 199.99m,
@@ -117,7 +119,7 @@ public static class MigrateAndSeed
             UserId = users.Select(x => x.Id).FirstOrDefault(),
             ItemsForSale = new List<ItemListing>()
         });
-        await listings.AddAsync(new Listing
+        listings.Add(new Listing
         {
             Name = "Halo ODST",
             Price = 19.99m,
@@ -127,7 +129,7 @@ public static class MigrateAndSeed
             UserId = users.Select(x => x.Id).FirstOrDefault(),
             ItemsForSale = new List<ItemListing>()
         });
-        await listings.AddAsync(new Listing
+        listings.Add(new Listing
         {
             Name = "N64",
             Price = 100.00m,
