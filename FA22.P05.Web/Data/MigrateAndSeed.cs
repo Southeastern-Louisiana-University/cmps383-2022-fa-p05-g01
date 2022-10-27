@@ -107,7 +107,7 @@ public static class MigrateAndSeed
             return;
         }
 
-        listings.Add(new Listing
+        await listings.AddAsync(new Listing
         {
             Name = "N64",
             Price = 199.99m,
@@ -117,7 +117,7 @@ public static class MigrateAndSeed
             UserId = users.Select(x => x.Id).FirstOrDefault(),
             ItemsForSale = new List<ItemListing>()
         });
-        listings.Add(new Listing
+        await listings.AddAsync(new Listing
         {
             Name = "Halo ODST",
             Price = 19.99m,
@@ -127,7 +127,7 @@ public static class MigrateAndSeed
             UserId = users.Select(x => x.Id).FirstOrDefault(),
             ItemsForSale = new List<ItemListing>()
         });
-        listings.Add(new Listing
+        await listings.AddAsync(new Listing
         {
             Name = "N64",
             Price = 100.00m,
