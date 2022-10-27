@@ -78,7 +78,7 @@ public static class MigrateAndSeed
         await userManager.CreateAsync(sueUser, defaultPassword);
         await userManager.AddToRoleAsync(sueUser, RoleNames.User);
 
-        services.GetRequiredService<DataContext>().SaveChangesAsync();
+        await services.GetRequiredService<DataContext>().SaveChangesAsync();
     }
 
     private static async Task AddRoles(IServiceProvider services)
