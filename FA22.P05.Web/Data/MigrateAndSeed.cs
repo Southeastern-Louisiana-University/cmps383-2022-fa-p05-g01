@@ -1,4 +1,5 @@
 ﻿using FA22.P05.Web.Features.Authorization;
+using FA22.P05.Web.Features.ItemListings;
 using FA22.P05.Web.Features.Listings;
 using FA22.P05.Web.Features.Products;
 using Microsoft.AspNetCore.Identity;
@@ -60,7 +61,8 @@ public static class MigrateAndSeed
             Description = "I am selling a mint condition N64",
             StartUtc = DateTimeOffset.UtcNow,
             EndUtc = DateTimeOffset.UtcNow.AddDays(10),
-            UserId = 1
+            UserId = 1,
+            ItemsForSale = new List<ItemListing>()
         });
         listings.Add(new Listing
         {
@@ -69,7 +71,8 @@ public static class MigrateAndSeed
             Description = "I am selling a copy of Halo ODST",
             StartUtc = DateTimeOffset.UtcNow,
             EndUtc = DateTimeOffset.UtcNow.AddDays(10),
-            UserId = 1
+            UserId = 1,
+            ItemsForSale = new List<ItemListing>()
         });
         listings.Add(new Listing
         {
@@ -78,7 +81,8 @@ public static class MigrateAndSeed
             Description = "I am selling a slightly used Xbox 360",
             StartUtc = DateTimeOffset.UtcNow,
             EndUtc = DateTimeOffset.UtcNow.AddDays(10),
-            UserId = 1
+            UserId = 1,
+            ItemsForSale = new List<ItemListing>()
         });
         await context.SaveChangesAsync();
     }
