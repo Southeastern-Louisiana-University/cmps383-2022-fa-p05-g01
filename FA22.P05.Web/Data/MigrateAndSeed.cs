@@ -19,8 +19,6 @@ public static class MigrateAndSeed
 
         AddProducts(context);
         await AddListings(context);
-
-        
     }
 
     private static void AddProducts(DataContext context)
