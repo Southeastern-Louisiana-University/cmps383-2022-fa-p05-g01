@@ -1,4 +1,6 @@
 ﻿using FA22.P05.Web.Features.Authorization;
+using FA22.P05.Web.Features.ItemListings;
+using FA22.P05.Web.Features.Listings;
 using FA22.P05.Web.Features.Products;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,10 +14,11 @@ public static class MigrateAndSeed
         var context = services.GetRequiredService<DataContext>();
         await context.Database.MigrateAsync();
 
-        AddProducts(context);
-
         await AddRoles(services);
         await AddUsers(services);
+
+        AddProducts(context);
+        await AddListings(context);
     }
 
     private static void AddProducts(DataContext context)
@@ -30,6 +33,7 @@ public static class MigrateAndSeed
         {
             Name = "Super Mario World",
             Description = "Super Nintendo (SNES) System",
+            
         });
         products.Add(new Product
         {
@@ -74,6 +78,8 @@ public static class MigrateAndSeed
         };
         await userManager.CreateAsync(sueUser, defaultPassword);
         await userManager.AddToRoleAsync(sueUser, RoleNames.User);
+
+        await services.GetRequiredService<DataContext>().SaveChangesAsync();
     }
 
     private static async Task AddRoles(IServiceProvider services)
@@ -93,5 +99,48 @@ public static class MigrateAndSeed
         {
             Name = RoleNames.User
         });
+    }
+
+    private static async Task AddListings(DataContext context)
+    {
+        var listings = context.Set<Listing>();
+        var users = context.Set<User>();
+        var userId = users.Select(x => x.Id).FirstOrDefault();
+        if (listings.Any(x => x.EndUtc > DateTimeOffset.UtcNow.Date))
+        {
+            return;
+        }
+
+        listings.Add(new Listing
+        {
+            Name = "N64",
+            Price = 199.99m,
+            Description = "I am selling a mint condition N64",
+            StartUtc = DateTimeOffset.UtcNow.Date,
+            EndUtc = DateTimeOffset.UtcNow.AddDays(10),
+            UserId = userId,
+            ItemsForSale = new List<ItemListing>()
+        });
+        listings.Add(new Listing
+        {
+            Name = "Halo ODST",
+            Price = 19.99m,
+            Description = "I am selling a copy of Halo ODST",
+            StartUtc = DateTimeOffset.UtcNow.Date,
+            EndUtc = DateTimeOffset.UtcNow.AddDays(10),
+            UserId = userId,
+            ItemsForSale = new List<ItemListing>()
+        });
+        listings.Add(new Listing
+        {
+            Name = "Xbox 360",
+            Price = 100.00m,
+            Description = "I am selling a slightly used Xbox 360",
+            StartUtc = DateTimeOffset.UtcNow.Date,
+            EndUtc = DateTimeOffset.UtcNow.AddDays(10),
+            UserId = userId,
+            ItemsForSale = new List<ItemListing>()
+        });
+        await context.SaveChangesAsync();
     }
 }
