@@ -7,7 +7,7 @@ export default function Navbar() {
 
   return (
     <>
-      <AppBar position="static" sx={{ background: "#1f2b39" }}>
+      <AppBar position="static" sx={{ background: "black" }}>
         <Toolbar>
           <Link to="/">
             <IconButton sx={{ color: "white" }}>Matrix Marketplace</IconButton>
@@ -18,15 +18,15 @@ export default function Navbar() {
             value={tab}
             onChange={(event, tab) => setTab(tab)}
             indicatorColor="primary"
+            text-decoration="none"
           >
             <Tab label="My Listings" />
-
-            <IconButton sx={{ color: "white" }}>
-              <Link to="listings">
-                <Tab label="All Listings" />{" "}
+            
+            <IconButton className="link-style">
+              <Link  style={{ color: "white" ,textDecoration : "none"}} to="listings">
+                <Tab label="All Listings" />
               </Link>
             </IconButton>
-
             <Tab label="My Orders/Bids" />
           </Tabs>
 
@@ -35,7 +35,7 @@ export default function Navbar() {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Outlet />
+    <Outlet/>
     </>
   );
 }
