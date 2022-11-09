@@ -10,10 +10,10 @@ import {
   Modal,
   TextField,
 } from "@mui/material";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ApiResponse, ListingDto, BidDto } from "../../constants/types";
+import { ListingDto, BidDto } from "../../constants/types";
 import { darkTheme } from "./listingPage";
 import ArrowBackIosNewOutlinedIcon from "@mui/icons-material/ArrowBackIosNewOutlined";
 import { useFormik } from "formik";
@@ -34,7 +34,6 @@ const buttonStyle = {
   justifyContent: "flexbox",
 };
 type CreateBidRequest = Omit<BidDto, "id">;
-type CreateBidResponse = ApiResponse<BidDto>;
 
 export default function ListingDetail() {
   const [listing, setListing] = useState<ListingDto>();
