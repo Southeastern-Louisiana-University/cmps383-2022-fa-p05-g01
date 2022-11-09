@@ -1,11 +1,19 @@
-import Navbar from "./Navbar";
+import CssBaseline from "@mui/material/CssBaseline";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import React from "react"
+import NavigationRoutes from "./routes/config";
 
-function App() {
+const darkMode = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
+
+export default function App() {
   return (
-    <div>
-      <Navbar />
-    </div>
+    <ThemeProvider theme={darkMode}>
+      <CssBaseline />
+      <NavigationRoutes />
+    </ThemeProvider>
   );
 }
-
-export default App;
