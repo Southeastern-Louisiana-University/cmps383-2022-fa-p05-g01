@@ -15,7 +15,7 @@ export const routerConfig = createBrowserRouter([
       {
         path: "/listings/:id",
         element: <ListingDetail/>
-      }
+      },
     ]
   },
 ]);

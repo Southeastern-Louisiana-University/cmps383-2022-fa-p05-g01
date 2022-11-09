@@ -7,7 +7,6 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Link } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { ListingDto } from "../../types/types";
@@ -25,6 +24,7 @@ export const darkTheme = createTheme({
 export default function Album() {
   const [listings, setListings] = useState<ListingDto[]>([]);
 
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,6 +32,8 @@ export default function Album() {
       setListings(response.data);
     });
   }, []);
+
+  const listingsToShow = listings;
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -45,7 +47,7 @@ export default function Album() {
             pb: 6,
           }}
         >
-          <Container maxWidth="sm">
+          <Container>
             <Typography
               component="h1"
               variant="h2"
@@ -53,14 +55,15 @@ export default function Album() {
               color="text.primary"
               gutterBottom
             >
-              Active listings
+              Active Listings
             </Typography>
+            <Typography align="center" >Select a listing to view closer</Typography>
           </Container>
         </Box>
         <Container sx={{ py: 8 }} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={3}>
-            {listings?.map((response) => (
+            {listingsToShow && listingsToShow?.map((response) => (
               <Grid key={response.id} xs={12} sm={6} md={4}>
                 <Button
                   sx={{
@@ -126,10 +129,7 @@ export default function Album() {
           color="text.secondary"
           component="p"
         >
-          Something here to give the footer a purpose!
-          <Button variant="text">
-            <Link style={{color: "white", textDecoration: "none"}} to="/">Home</Link>
-          </Button>
+          Select a Listing to view more closely.
         </Typography>
       </Box>
       {/* End footer */}
