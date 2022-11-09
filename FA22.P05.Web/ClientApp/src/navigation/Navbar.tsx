@@ -27,7 +27,7 @@ export default function Navbar() {
 
   return (
     <>
-      <AppBar position="static" sx={{ background: "black" }}>
+      <AppBar position="static" sx={{ background: "#1f2b39" }}>
         <Toolbar>
           <Link
             component={RouterLink}
