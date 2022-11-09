@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ListingDto } from "../../types/types";
+import { ListingDto } from "../../constants/types";
 import axios from "axios";
 import { CardContent, Typography } from "@mui/material";
 
@@ -19,7 +19,7 @@ export default function ActiveListings() {
     <>
       <div>
         <p>
-          <Typography variant="h2" color="black">
+          <Typography variant="h2" color="inherit">
             Active Listings
           </Typography>
         </p>

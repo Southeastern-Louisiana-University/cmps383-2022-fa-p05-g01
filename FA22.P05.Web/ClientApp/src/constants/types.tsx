@@ -10,3 +10,8 @@ export type ListingDto = {
   startUtc: Date;
   endUtc: Date;
 };
+
+export type LoginDto = {
+  username: string;
+  password: string;
+};
