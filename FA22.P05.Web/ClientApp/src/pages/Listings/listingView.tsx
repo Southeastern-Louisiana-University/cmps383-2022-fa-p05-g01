@@ -13,7 +13,7 @@ import {
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ApiResponse, BidDto, ListingDto } from "../../types/types";
+import { ApiResponse, ListingDto, BidDto } from "../../constants/types";
 import { darkTheme } from "./listingPage";
 import ArrowBackIosNewOutlinedIcon from "@mui/icons-material/ArrowBackIosNewOutlined";
 import { useFormik } from "formik";

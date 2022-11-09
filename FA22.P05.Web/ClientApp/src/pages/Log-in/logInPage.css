@@ -1,0 +1,17 @@
+.pageWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 80vh;
+    width: 100%;
+}
+
+.inputArea {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-flow: column wrap;
+    width: 60%;
+    height: 100%;
+}
