@@ -43,7 +43,6 @@ export default function ListingDetail() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [bid, setBid] = useState<ApiResponse<BidDto>>();
 
   const formik = useFormik<CreateBidRequest>({
     initialValues: {
@@ -55,34 +54,6 @@ export default function ListingDetail() {
       alert(JSON.stringify(values));
     },
   });
-
-  const createBid = (values: CreateBidRequest) => {
-    axios
-      .post<CreateBidResponse>(`/api/bids`, values)
-      .then((response) => {
-        if (response.data.hasErrors) {
-          response.data.errors.forEach((err) => {
-            console.error(`${err.property}: ${err.message}`);
-          });
-          alert("There was an error");
-          return;
-        }
-        console.log("Successfully Created Bid");
-        alert("Successfully Created Bid");
-      })
-      .catch(({ response }: AxiosError<CreateBidResponse>) => {
-        if (response?.data.hasErrors) {
-          response?.data.errors.forEach((err) => {
-            console.log(err.message);
-          });
-          alert(response?.data.errors[0].message);
-        } else {
-          alert(`There was an error creating bid`);
-        }
-        setBid(response?.data);
-        navigate.arguments(response);
-      });
-  };
 
   useEffect(() => {
     axios.get<ListingDto>(`/api/listings/${id}`).then((response) => {
