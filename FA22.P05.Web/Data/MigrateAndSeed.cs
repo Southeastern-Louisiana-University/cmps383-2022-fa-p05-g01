@@ -104,6 +104,7 @@ public static class MigrateAndSeed
     private static async Task AddListings(DataContext context)
     {
         var listings = context.Set<Listing>();
+        var listingType = listings.Select(x => x.ListingTypeId).FirstOrDefault();
         var users = context.Set<User>();
         var userId = users.Select(x => x.Id).FirstOrDefault();
         if (listings.Any(x => x.EndUtc > DateTimeOffset.UtcNow.Date))
@@ -118,6 +119,7 @@ public static class MigrateAndSeed
             Description = "I am selling a mint condition N64",
             StartUtc = DateTimeOffset.UtcNow.Date,
             EndUtc = DateTimeOffset.UtcNow.AddDays(10),
+            ListingTypeId = listingType,
             UserId = userId,
             ItemsForSale = new List<ItemListing>()
         });
@@ -128,6 +130,7 @@ public static class MigrateAndSeed
             Description = "I am selling a copy of Halo ODST",
             StartUtc = DateTimeOffset.UtcNow.Date,
             EndUtc = DateTimeOffset.UtcNow.AddDays(10),
+            ListingTypeId = listingType,
             UserId = userId,
             ItemsForSale = new List<ItemListing>()
         });
@@ -138,6 +141,7 @@ public static class MigrateAndSeed
             Description = "I am selling a slightly used Xbox 360",
             StartUtc = DateTimeOffset.UtcNow.Date,
             EndUtc = DateTimeOffset.UtcNow.AddDays(10),
+            ListingTypeId = listingType,
             UserId = userId,
             ItemsForSale = new List<ItemListing>()
         });
