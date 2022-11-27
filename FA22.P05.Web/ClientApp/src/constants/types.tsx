@@ -25,5 +25,5 @@ export type BidDto = {
   id: number;
   userId: number;
   bidAmount: number;
-  listingId: number;
+  listingId?: number;
 }
