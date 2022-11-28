@@ -11,12 +11,9 @@ import {
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ListingDto, BidDto } from "../../constants/types";
+import { ListingDto, BidDto, ApiResponse } from "../../constants/types";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useFormik } from "formik";
-import { ApiResponse } from "../../constants/types";
-import { toast, ToastContainer } from "react-toastify";
-import { CloseButton } from "react-toastify/dist/components";
 
 const style = {
   position: "absolute" as "absolute",
@@ -43,9 +40,7 @@ export default function ListingDetail() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [bid, setBid] = useState<BidDto>();
 
- 
   const formik = useFormik<CreateBidRequest>({
     initialValues: {
       userId: 1,
@@ -63,7 +58,7 @@ export default function ListingDetail() {
       console.log(response.data);
       setListing(response.data);
     });
-  }, []);
+  }, [id]);
 
   function CreateBid(values: CreateBidRequest) {
     values.listingId = listing?.id;
@@ -79,6 +74,7 @@ export default function ListingDetail() {
         }
 
         console.log("Successfully Created Bid");
+        
       })
 
       .catch(({ response }: AxiosError<CreateBidResponse>) => {
@@ -88,10 +84,6 @@ export default function ListingDetail() {
           });
           alert(response?.data.errors[0].message);
         }
-
-        setBid(response?.data.data);
-
-        navigate.arguments(response);
       });
   }
 
@@ -132,6 +124,15 @@ export default function ListingDetail() {
             <Button variant="contained" onClick={handleOpen}>
               Bid
             </Button>
+
+            <Button
+              color="success"
+              variant="contained"
+              sx={{ display: "flex", justifyContent: "flex-end" }}
+            >
+              buy
+            </Button>
+
             <Modal open={open}>
               <Box sx={style}>
                 <Button
@@ -160,11 +161,7 @@ export default function ListingDetail() {
                       >
                         Back
                       </Button>
-                      <Button
-                        type="submit"
-                        sx={{ display: "block" }}
-                       
-                      >
+                      <Button type="submit" sx={{ display: "block" }}>
                         Confirm
                       </Button>
                     </div>

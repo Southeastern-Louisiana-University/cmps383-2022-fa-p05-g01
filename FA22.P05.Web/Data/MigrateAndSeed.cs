@@ -152,6 +152,39 @@ public static class MigrateAndSeed
             UserId = userId,
             ItemsForSale = new List<ItemListing>()
         });
+        listings.Add(new Listing
+        {
+            Name = "PlayStation 4",
+            Price = 200.00m,
+            Description = "I am selling a mint condition PS4",
+            StartUtc = DateTimeOffset.UtcNow.Date,
+            EndUtc = DateTimeOffset.UtcNow.AddDays(10),
+            ListingTypeId = saleListingType,
+            UserId = userId,
+            ItemsForSale = new List<ItemListing>()
+        });
+        listings.Add(new Listing
+        {
+            Name = "CyberPunk 2099",
+            Price = 49.99m,
+            Description = "Selling a collectors edition Cyberpunk 2099",
+            StartUtc = DateTimeOffset.UtcNow.Date,
+            EndUtc = DateTimeOffset.UtcNow.AddDays(10),
+            ListingTypeId = saleListingType,
+            UserId = userId,
+            ItemsForSale = new List<ItemListing>()
+        });
+        listings.Add(new Listing
+        {
+            Name = "Assassins Creed BlackFlag",
+            Price = 24.99m,
+            Description = "Selling a never opened copy of Assassins Creed BlackFlag",
+            StartUtc = DateTimeOffset.UtcNow.Date,
+            EndUtc = DateTimeOffset.UtcNow.AddDays(10),
+            ListingTypeId = saleListingType,
+            UserId = userId,
+            ItemsForSale = new List<ItemListing>()
+        });
         await context.SaveChangesAsync();
     }
 

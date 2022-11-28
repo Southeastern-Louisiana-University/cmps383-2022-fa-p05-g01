@@ -8,10 +8,10 @@ export type ApiResponse<T> = {
   hasErrors: boolean;
 }
 export type ListingDto = {
-  id: number;
+  id?: number;
   name: string;
   description: string;
-  listingType: number;
+  listingTypeId: number;
   price: number;
   startUtc: Date;
   endUtc: Date; 

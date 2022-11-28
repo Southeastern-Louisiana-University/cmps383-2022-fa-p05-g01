@@ -2,153 +2,94 @@ import {
   Box,
   Button,
   Card,
-  CardContent,
   IconButton,
   InputLabel,
-  MenuItem,
-  NativeSelect,
-  Select,
-  SelectChangeEvent,
-  TextField,
+  Input
 } from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
 import { useMemo, useState } from "react";
-import { ApiResponse, ListingDto } from "../../constants/types";
+import { ListingDto } from "../../constants/types";
 import { Field, Form, Formik } from "formik";
-import axios, { AxiosError } from "axios";
-import { Navigate, useNavigate } from "react-router";
-
-type CreateListingRequest = Omit<ListingDto, "id">;
-type CreateListingResponse = ApiResponse<ListingDto>;
+import axios from "axios";
+import "./addListing.css";
 
 export default function CreateListing() {
-  const navigate = useNavigate();
-  const [type, setType] = useState<number>();
-  const [listing, setListing] = useState<ListingDto>();
-  const initialValues = useMemo<CreateListingRequest>(
+  const [listing] = useState<ListingDto>();
+  const initialValues = useMemo<ListingDto>(
     () => ({
       name: "",
       price: 0,
       description: "",
-      listingType: 0,
+      listingTypeId: 0,
       startUtc: new Date(),
       endUtc: new Date(),
     }),
     []
   );
 
-  const submitListing = (values: CreateListingRequest) => {
+  const submitListing = (values: ListingDto) => {
     axios
-      .post<CreateListingResponse>("api/listings/add", values)
+      .post<ListingDto>("https://localhost:7031/api/listings", values)
       .then((response) => {
-        if (response.data.hasErrors) {
-          response.data.errors.forEach(
-            (err: { property: any; message: any }) => {
-              console.error(`${err.property}: ${err.message}`);
-            }
-          );
-          alert("There was an error");
-          return;
-        }
-
         console.log("Successfully Created Listing");
-      })
-
-      .catch(({ response }: AxiosError<CreateListingResponse>) => {
-        if (response?.data.hasErrors) {
-          response?.data.errors.forEach((err) => {
-            console.log(err.message);
-          });
-          alert(response?.data.errors[0].message);
-        }
-
       });
   };
 
   return (
-    <Box
-      component="form"
-      sx={{
-        "& .MuiTextField-root": { m: 1, width: "25ch", height: "100" },
-        display: "flex",
-        justifyContent: "center",
-        marginTop: "50px",
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <Box>
-        <Card
-          sx={{
-            size: "inherit",
-            border: "1px solid",
-            "&:hover": {
-              border: "2px solid",
-            },
-          }}
-        >
-          <CardContent>
-            <Formik initialValues={initialValues} onSubmit={submitListing}>
-              <Form>
-                <TextField
-                  placeholder="Title"
-                  multiline
-                  sx={{ display: "flex" }}
-                >
-                  <InputLabel>Title</InputLabel>
-                  <Field id="name" name="name"></Field>
-                </TextField>
+    <Box sx={{ display: "flex", justifyContent: "center" }}>
+      <Card classes={"field-formatter"} sx={{ border: "2px solid" }}>
+        <Formik initialValues={initialValues} onSubmit={submitListing}>
+          <Form>
+            <InputLabel>Title</InputLabel>
+            <Field
+              id="name"
+              name="name"
+              render={({ field }: any) => <Input {...field} />}
+            />
 
-                <TextField
-                  placeholder="Price...$"
-                  multiline
-                  sx={{ display: "flex" }}
-                >
-                  <InputLabel>price</InputLabel>
-                  <Field id="price" name="price"></Field>
-                </TextField>
+            <InputLabel>price</InputLabel>
+            <Field
+              id="price"
+              name="price"
+              render={({ field }: any) => <Input {...field} />}
+            />
 
-                <TextField
-                  placeholder="Description"
-                  multiline
-                  sx={{ display: "flex" }}
-                >
-                  <InputLabel>...</InputLabel>
-                  <Field id="description" name="description"></Field>
-                </TextField>
-                <TextField
-                  name="startUtc"
-                  type="date"
-                  value={listing?.startUtc}
-                />
-                <TextField
-                  name="endUtc"
-                  sx={{ display: "flex" }}
-                  type="date"
-                  value={listing?.endUtc}
-                />
+            <InputLabel>description</InputLabel>
+            <Field
+              id="description"
+              name="description"
+              render={({ field }: any) => <Input {...field} />}
+            />
+            <br />
+            <InputLabel>Start Date</InputLabel>
+            <Field
+              id="startUtc"
+              name="startUtc"
+              type="date"
+              value={listing?.startUtc}
+            />
+            <InputLabel>End Date</InputLabel>
+            <Field
+              id="endUtc"
+              name="endUtc"
+              type="date"
+              value={listing?.endUtc}
+            />
+            <br />
+            <Field id="listingTypeId" name="listingTypeId" component="select">
+              <option value="1">Auction</option>
+              <option value="2">Sale</option>
+            </Field>
 
-                <TextField
-                  label="Type"
-                  name="listingType"
-                  id="listingType"
-                  select
-                  value={listing?.listingType}
-                >
-                  <MenuItem value="1">Auction</MenuItem>
-                  <MenuItem value="2">Sale</MenuItem>
-                </TextField>
-                <Button type="submit" sx={{ display: "flex" }}>
-                  Create
-                </Button>
-                <IconButton>
-                  <UploadIcon />
-                </IconButton>
-              </Form>
-            </Formik>
-          </CardContent>
-        </Card>
-      </Box>
+            <Button type="submit" sx={{ display: "flex" }}>
+              Create
+            </Button>
+            <IconButton>
+              <UploadIcon />
+            </IconButton>
+          </Form>
+        </Formik>
+      </Card>
     </Box>
   );
 }
