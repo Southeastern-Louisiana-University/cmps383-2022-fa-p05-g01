@@ -11,6 +11,7 @@ export type ListingDto = {
   id: number;
   name: string;
   description: string;
+  listingType: number;
   price: number;
   startUtc: Date;
   endUtc: Date; 

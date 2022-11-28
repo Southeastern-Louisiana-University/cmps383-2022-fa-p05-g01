@@ -4,8 +4,11 @@ import {
   Card,
   CardContent,
   IconButton,
-  InputAdornment,
   InputLabel,
+  MenuItem,
+  NativeSelect,
+  Select,
+  SelectChangeEvent,
   TextField,
 } from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
@@ -20,12 +23,14 @@ type CreateListingResponse = ApiResponse<ListingDto>;
 
 export default function CreateListing() {
   const navigate = useNavigate();
+  const [type, setType] = useState<number>();
   const [listing, setListing] = useState<ListingDto>();
   const initialValues = useMemo<CreateListingRequest>(
     () => ({
       name: "",
       price: 0,
       description: "",
+      listingType: 0,
       startUtc: new Date(),
       endUtc: new Date(),
     }),
@@ -57,7 +62,6 @@ export default function CreateListing() {
           alert(response?.data.errors[0].message);
         }
 
-        setListing(response?.data.data);
       });
   };
 
@@ -112,19 +116,28 @@ export default function CreateListing() {
                   <InputLabel>...</InputLabel>
                   <Field id="description" name="description"></Field>
                 </TextField>
-               <Card>
                 <TextField
                   name="startUtc"
                   type="date"
                   value={listing?.startUtc}
                 />
-                </Card>
                 <TextField
                   name="endUtc"
-                  sx={{display: "flex" }}
+                  sx={{ display: "flex" }}
                   type="date"
                   value={listing?.endUtc}
                 />
+
+                <TextField
+                  label="Type"
+                  name="listingType"
+                  id="listingType"
+                  select
+                  value={listing?.listingType}
+                >
+                  <MenuItem value="1">Auction</MenuItem>
+                  <MenuItem value="2">Sale</MenuItem>
+                </TextField>
                 <Button type="submit" sx={{ display: "flex" }}>
                   Create
                 </Button>
