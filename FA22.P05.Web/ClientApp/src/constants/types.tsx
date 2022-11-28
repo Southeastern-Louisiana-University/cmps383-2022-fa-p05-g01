@@ -6,14 +6,15 @@ export type ApiResponse<T> = {
   data: T;
   errors: Error[];
   hasErrors: boolean;
-}
+};
 export type ListingDto = {
-  id: number;
+  id?: number;
   name: string;
   description: string;
+  listingTypeId: number;
   price: number;
   startUtc: Date;
-  endUtc: Date; 
+  endUtc: Date;
 };
 
 export type LoginDto = {
@@ -26,4 +27,10 @@ export type BidDto = {
   userId: number;
   bidAmount: number;
   listingId?: number;
-}
+};
+
+export type CreateUserDto = {
+  username: string;
+  password: string;
+  roles: string[];
+};
