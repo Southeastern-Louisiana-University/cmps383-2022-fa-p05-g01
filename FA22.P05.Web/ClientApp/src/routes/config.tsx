@@ -6,6 +6,7 @@ import LogIn from "../pages/Log-in/logInPage";
 import ListingDetail from "../pages/Listings/listingView";
 import SignUpPage from "../pages/Sign-up/signUpPage";
 import LandingPage from "../pages/LandingPage/landingPage";
+import CreateListing from "../pages/Listings/addListing";
 
 export const routes = {
   home: "/",
@@ -13,6 +14,7 @@ export const routes = {
   signUp: "/sign-up",
   listings: "/listings",
   listingsDetail: "/listings/:id",
+  addListing: "/listings/add",
 };
 
 export default function NavigationRoutes() {
@@ -23,6 +25,7 @@ export default function NavigationRoutes() {
         <Route path={routes.home} element={<LandingPage />} />
         <Route path={routes.listings} element={<Album />} />
         <Route path={routes.listingsDetail} element={<ListingDetail />} />
+        <Route path ={routes.addListing} element = {<CreateListing/>}/>
         <Route path={routes.logIn} element={<LogIn />} />
         <Route path={routes.signUp} element={<SignUpPage />} />
       </Routes>

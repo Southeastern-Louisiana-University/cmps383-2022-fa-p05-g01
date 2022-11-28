@@ -3,19 +3,16 @@ import {
   Card,
   CardContent,
   CardMedia,
-  CssBaseline,
-  ThemeProvider,
   Typography,
   Button,
   Modal,
   TextField,
 } from "@mui/material";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ListingDto, BidDto } from "../../constants/types";
-import { darkTheme } from "./listingPage";
-import ArrowBackIosNewOutlinedIcon from "@mui/icons-material/ArrowBackIosNewOutlined";
+import { ListingDto, BidDto, ApiResponse } from "../../constants/types";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useFormik } from "formik";
 
 const style = {
@@ -34,6 +31,7 @@ const buttonStyle = {
   justifyContent: "flexbox",
 };
 type CreateBidRequest = Omit<BidDto, "id">;
+type CreateBidResponse = ApiResponse<BidDto>;
 
 export default function ListingDetail() {
   const [listing, setListing] = useState<ListingDto>();
@@ -49,8 +47,9 @@ export default function ListingDetail() {
       bidAmount: 0,
       listingId: 4,
     },
+
     onSubmit: (values) => {
-      alert(JSON.stringify(values));
+      CreateBid(values);
     },
   });
 
@@ -61,13 +60,38 @@ export default function ListingDetail() {
     });
   }, [id]);
 
+  function CreateBid(values: CreateBidRequest) {
+    values.listingId = listing?.id;
+    axios
+      .post<CreateBidResponse>(`/api/bids/${id}`, values)
+      .then((response) => {
+        if (response.data.hasErrors) {
+          response.data.errors.forEach((err) => {
+            console.error(`${err.property}: ${err.message}`);
+          });
+          alert("There was an error");
+          return;
+        }
+
+        console.log("Successfully Created Bid");
+        
+      })
+
+      .catch(({ response }: AxiosError<CreateBidResponse>) => {
+        if (response?.data.hasErrors) {
+          response?.data.errors.forEach((err) => {
+            console.log(err.message);
+          });
+          alert(response?.data.errors[0].message);
+        }
+      });
+  }
+
   if (!listing) {
     return <p>No listing</p>;
   }
-
   return (
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
+    <Box>
       <Box
         sx={{
           justifyContent: "center",
@@ -81,7 +105,7 @@ export default function ListingDetail() {
             borderColor: "gray",
           }}
         >
-          <Box sx={{ width: 600, height: 600 }} maxWidth="md">
+          <Box sx={{ width: 200, height: 200 }} maxWidth="md">
             <CardContent>
               <CardMedia
                 component="img"
@@ -100,6 +124,15 @@ export default function ListingDetail() {
             <Button variant="contained" onClick={handleOpen}>
               Bid
             </Button>
+
+            <Button
+              color="success"
+              variant="contained"
+              sx={{ display: "flex", justifyContent: "flex-end" }}
+            >
+              buy
+            </Button>
+
             <Modal open={open}>
               <Box sx={style}>
                 <Button
@@ -110,7 +143,7 @@ export default function ListingDetail() {
                   }}
                   onClick={handleClose}
                 >
-                  <ArrowBackIosNewOutlinedIcon> </ArrowBackIosNewOutlinedIcon>
+                  <KeyboardBackspaceIcon />
                 </Button>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
                   <Typography>Enter in Bid amount:</Typography>
@@ -144,11 +177,11 @@ export default function ListingDetail() {
               <Typography variant="h5">
                 {"Description: " + listing.description}
               </Typography>
-              <Typography variant="h5">{"Price: $" + listing.price}</Typography>
+              <Typography variant="h4">{"$" + listing.price}</Typography>
             </Box>
           </CardContent>
         </Card>
       </Box>
-    </ThemeProvider>
+    </Box>
   );
 }

@@ -2,24 +2,16 @@ import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { ListingDto } from "../../constants/types";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
-export const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-  },
-  
-  
-});
+
 
 export default function Album() {
   const [listings, setListings] = useState<ListingDto[]>([]);
@@ -36,8 +28,7 @@ export default function Album() {
   const listingsToShow = listings;
 
   return (
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
+   
       <main>
         {/* Hero unit */}
         <Box
@@ -47,18 +38,21 @@ export default function Album() {
             pb: 6,
           }}
         >
-          <Container>
-            <Typography
-              component="h1"
-              variant="h2"
-              align="center"
-              color="text.primary"
-              gutterBottom
-            >
-              Active Listings
-            </Typography>
-            <Typography align="center" >Select a listing to view closer</Typography>
-          </Container>
+          <Box sx={{display: "flex",justifyContent:"flex-start", marginLeft:"50px"}}>
+          <Button sx ={{border: '1px solid', backgroundImage: 'linear-gradient(blue, whitesmoke)',
+          "&:hover": {
+           boxShadow: '0 0 15px #ffee10'
+          }
+          }}
+           onClick={() => navigate("/listings/add")}>
+           <Typography sx={{ color: "black",  
+           "&:hover": {
+            color: '#ffee10'
+           }
+          }} >Create Listing</Typography>
+
+            </Button>
+          </Box>
         </Box>
         <Container sx={{ py: 8 }} maxWidth="md">
           {/* End hero unit */}
@@ -83,15 +77,18 @@ export default function Album() {
                       borderColor: "white",
                     }}
                   >
+                    <Box sx={{ width: 200, height: 150  }} >
                     <CardMedia
                       component="img"
                       sx={{
-                        
-                        pt: "20%",
-                      }}
+                       height: 100,
+                       width: 250,
+                        objectFit: "contain"
+                      }} 
                       image="https://source.unsplash.com/random"
                       alt="random"
                     />
+                    </Box>
 
                     <CardContent sx={{ flexGrow: 1 }}>
                       <Typography
@@ -118,21 +115,6 @@ export default function Album() {
           </Grid>
         </Container>
       </main>
-      {/* Footer */}
-      <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">
-        <Typography variant="h6" align="center" gutterBottom>
-          Welcome to the Matrix
-        </Typography>
-        <Typography
-          variant="subtitle1"
-          align="center"
-          color="text.secondary"
-          component="p"
-        >
-          Select a Listing to view more closely.
-        </Typography>
-      </Box>
-      {/* End footer */}
-    </ThemeProvider>
+   
   );
 }

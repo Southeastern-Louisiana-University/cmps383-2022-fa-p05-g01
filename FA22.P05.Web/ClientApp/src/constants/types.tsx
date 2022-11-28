@@ -8,9 +8,10 @@ export type ApiResponse<T> = {
   hasErrors: boolean;
 };
 export type ListingDto = {
-  id: number;
+  id?: number;
   name: string;
   description: string;
+  listingTypeId: number;
   price: number;
   startUtc: Date;
   endUtc: Date;
@@ -25,7 +26,7 @@ export type BidDto = {
   id: number;
   userId: number;
   bidAmount: number;
-  listingId: number;
+  listingId?: number;
 };
 
 export type CreateUserDto = {

@@ -63,6 +63,7 @@ namespace FA22.P05.Web.Controllers
                 Price = dto.Price!.Value,
                 StartUtc = dto.StartUtc!.Value,
                 EndUtc = dto.EndUtc!.Value,
+                ListingTypeId = dto.ListingTypeId,
                 UserId = User.GetCurrentUserId() ?? throw new Exception("Missing user id")
             };
             listings.Add(listing);
@@ -174,6 +175,7 @@ namespace FA22.P05.Web.Controllers
         {
             return string.IsNullOrWhiteSpace(dto.Name) ||
                    dto.Name.Length > 120 ||
+                   dto.ListingTypeId == 0 ||
                    dto.StartUtc == null ||
                    dto.EndUtc == null ||
                    dto.StartUtc >= dto.EndUtc ||
@@ -188,6 +190,7 @@ namespace FA22.P05.Web.Controllers
                     Id = x.Id,
                     Name = x.Name,
                     Description = x.Description,
+                    ListingTypeId = x.ListingTypeId,
                     Price = x.Price,
                     StartUtc = x.StartUtc,
                     EndUtc = x.EndUtc

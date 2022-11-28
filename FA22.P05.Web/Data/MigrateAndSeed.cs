@@ -1,6 +1,7 @@
 ﻿using FA22.P05.Web.Features.Authorization;
 using FA22.P05.Web.Features.ItemListings;
 using FA22.P05.Web.Features.Listings;
+using FA22.P05.Web.Features.ListingTypes;
 using FA22.P05.Web.Features.Products;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ public static class MigrateAndSeed
         await AddRoles(services);
         await AddUsers(services);
 
+        await AddListingTypes(context);
         AddProducts(context);
         await AddListings(context);
     }
@@ -104,8 +106,14 @@ public static class MigrateAndSeed
     private static async Task AddListings(DataContext context)
     {
         var listings = context.Set<Listing>();
+
+        var listingTypes = context.Set<ListingType>();
+        var auctionListingType = listingTypes.Where(x => x.Name == "Auction").Select(x => x.Id).FirstOrDefault();
+        var saleListingType = listingTypes.Where(x => x.Name == "Sale").Select(x => x.Id).FirstOrDefault();
+
         var users = context.Set<User>();
         var userId = users.Select(x => x.Id).FirstOrDefault();
+
         if (listings.Any(x => x.EndUtc > DateTimeOffset.UtcNow.Date))
         {
             return;
@@ -118,6 +126,7 @@ public static class MigrateAndSeed
             Description = "I am selling a mint condition N64",
             StartUtc = DateTimeOffset.UtcNow.Date,
             EndUtc = DateTimeOffset.UtcNow.AddDays(10),
+            ListingTypeId = auctionListingType,
             UserId = userId,
             ItemsForSale = new List<ItemListing>()
         });
@@ -128,6 +137,7 @@ public static class MigrateAndSeed
             Description = "I am selling a copy of Halo ODST",
             StartUtc = DateTimeOffset.UtcNow.Date,
             EndUtc = DateTimeOffset.UtcNow.AddDays(10),
+            ListingTypeId = auctionListingType,
             UserId = userId,
             ItemsForSale = new List<ItemListing>()
         });
@@ -138,9 +148,63 @@ public static class MigrateAndSeed
             Description = "I am selling a slightly used Xbox 360",
             StartUtc = DateTimeOffset.UtcNow.Date,
             EndUtc = DateTimeOffset.UtcNow.AddDays(10),
+            ListingTypeId = saleListingType,
             UserId = userId,
             ItemsForSale = new List<ItemListing>()
         });
+        listings.Add(new Listing
+        {
+            Name = "PlayStation 4",
+            Price = 200.00m,
+            Description = "I am selling a mint condition PS4",
+            StartUtc = DateTimeOffset.UtcNow.Date,
+            EndUtc = DateTimeOffset.UtcNow.AddDays(10),
+            ListingTypeId = saleListingType,
+            UserId = userId,
+            ItemsForSale = new List<ItemListing>()
+        });
+        listings.Add(new Listing
+        {
+            Name = "CyberPunk 2099",
+            Price = 49.99m,
+            Description = "Selling a collectors edition Cyberpunk 2099",
+            StartUtc = DateTimeOffset.UtcNow.Date,
+            EndUtc = DateTimeOffset.UtcNow.AddDays(10),
+            ListingTypeId = saleListingType,
+            UserId = userId,
+            ItemsForSale = new List<ItemListing>()
+        });
+        listings.Add(new Listing
+        {
+            Name = "Assassins Creed BlackFlag",
+            Price = 24.99m,
+            Description = "Selling a never opened copy of Assassins Creed BlackFlag",
+            StartUtc = DateTimeOffset.UtcNow.Date,
+            EndUtc = DateTimeOffset.UtcNow.AddDays(10),
+            ListingTypeId = saleListingType,
+            UserId = userId,
+            ItemsForSale = new List<ItemListing>()
+        });
+        await context.SaveChangesAsync();
+    }
+
+    private static async Task AddListingTypes(DataContext context)
+    {
+        var listingTypes = context.Set<ListingType>();
+        if (listingTypes.Any())
+        {
+            return;
+        }
+
+        listingTypes.Add(new ListingType
+        {
+            Name = "Auction"
+        });
+        listingTypes.Add(new ListingType
+        {
+            Name = "Sale"
+        });
+
         await context.SaveChangesAsync();
     }
 }
