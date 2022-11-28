@@ -27,7 +27,7 @@ export default function LogIn() {
   const submitLogin = (values: LoginDto) => {
     axios.post<LoginDto>("api/authentication/login", values).then(() => {
       console.log("Successfully logged in!");
-      navigate("/");
+      navigate(routes.home);
     });
   };
 
