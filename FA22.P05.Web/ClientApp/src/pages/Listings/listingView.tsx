@@ -45,7 +45,6 @@ export default function ListingDetail() {
   const handleClose = () => setOpen(false);
   const [bid, setBid] = useState<BidDto>();
 
- 
   const formik = useFormik<CreateBidRequest>({
     initialValues: {
       userId: 1,
@@ -54,6 +53,7 @@ export default function ListingDetail() {
     },
 
     onSubmit: (values) => {
+      values.listingId = listing?.id;
       CreateBid(values);
     },
   });
@@ -63,10 +63,9 @@ export default function ListingDetail() {
       console.log(response.data);
       setListing(response.data);
     });
-  }, []);
+  }, [id]);
 
   function CreateBid(values: CreateBidRequest) {
-    values.listingId = listing?.id;
     axios
       .post<CreateBidResponse>(`/api/bids/${id}`, values)
       .then((response) => {
@@ -88,10 +87,6 @@ export default function ListingDetail() {
           });
           alert(response?.data.errors[0].message);
         }
-
-        setBid(response?.data.data);
-
-        navigate.arguments(response);
       });
   }
 
@@ -160,11 +155,7 @@ export default function ListingDetail() {
                       >
                         Back
                       </Button>
-                      <Button
-                        type="submit"
-                        sx={{ display: "block" }}
-                       
-                      >
+                      <Button type="submit" sx={{ display: "block" }}>
                         Confirm
                       </Button>
                     </div>
