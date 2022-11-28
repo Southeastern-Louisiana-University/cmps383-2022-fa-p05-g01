@@ -49,6 +49,7 @@ export default function ListingDetail() {
     },
 
     onSubmit: (values) => {
+      values.listingId = listing?.id;
       CreateBid(values);
     },
   });
@@ -61,7 +62,6 @@ export default function ListingDetail() {
   }, [id]);
 
   function CreateBid(values: CreateBidRequest) {
-    values.listingId = listing?.id;
     axios
       .post<CreateBidResponse>(`/api/bids/${id}`, values)
       .then((response) => {
