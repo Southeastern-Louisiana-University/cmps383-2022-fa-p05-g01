@@ -74,7 +74,6 @@ export default function ListingDetail() {
         }
 
         console.log("Successfully Created Bid");
-        
       })
 
       .catch(({ response }: AxiosError<CreateBidResponse>) => {

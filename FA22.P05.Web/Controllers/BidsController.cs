@@ -40,19 +40,20 @@ namespace FA22.P05.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        public  ActionResult<BidDto> CreateBid(BidDto bidDto)
+        [Route("{id}")]
+        public  ActionResult<BidDto> CreateBid(BidDto bidDto, int id)
         {
             if (IsInvalid(bidDto)){
                     return BadRequest();
                  }
-            var listing = _listings.FirstOrDefault(x => x.Id == bidDto.ListingId);
+            var listing = _listings.FirstOrDefault(x => x.Id == id);
 
             if(listing == null) {
                 return BadRequest();
             }
             var bid = new Bid {
                 BidAmount = bidDto.BidAmount,
-                ListingId = listing.Id,
+                ListingId = id,
                 UserId = User.GetCurrentUserId() ?? throw new Exception("missing user id")
             };
             _bids.Add(bid);

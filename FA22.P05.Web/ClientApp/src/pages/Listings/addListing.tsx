@@ -4,7 +4,7 @@ import {
   Card,
   IconButton,
   InputLabel,
-  Input
+  Input,
 } from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
 import { useMemo, useState } from "react";
@@ -28,11 +28,9 @@ export default function CreateListing() {
   );
 
   const submitListing = (values: ListingDto) => {
-    axios
-      .post<ListingDto>("https://localhost:7031/api/listings", values)
-      .then((response) => {
-        console.log("Successfully Created Listing");
-      });
+    axios.post<ListingDto>("/api/listings", values).then((response) => {
+      console.log("Successfully Created Listing");
+    });
   };
 
   return (
@@ -76,10 +74,8 @@ export default function CreateListing() {
               value={listing?.endUtc}
             />
             <br />
-            <Field id="listingTypeId" name="listingTypeId" component="select">
-              <option value="1">Auction</option>
-              <option value="2">Sale</option>
-            </Field>
+            <InputLabel>Listing Type 1 or 2</InputLabel>
+            <Field id="listingTypeId" name="listingTypeId"></Field>
 
             <Button type="submit" sx={{ display: "flex" }}>
               Create
